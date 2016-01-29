@@ -18,17 +18,7 @@
                 <button id="add">Add</button>
             </div>
         </form>
-        <div class="bookContainer">
-            <img src="img/placeholder.png"/>
-            <ul>
-                <li>Title</li>
-                <li>Author</li>
-                <li>Release Date</li>
-                <li>Keywords</li>
-            </ul>
 
-            <button class="delete">Delete</button>
-        </div>
     </div>
 
     <script id="bookTemplate" type="text/template">
@@ -36,13 +26,14 @@
         <ul>
             <li><%= title %></li>
             <li><%= author %></li>
-            <li><%= releaseDate %></li>
-            <li><%= keywords %></li>
+            <li><%= $.format.date( new Date( releaseDate ), 'MMMM yyyy' ) %></li>
+            <li><% _.each( keywords, function( keyobj ) {%> <%= keyobj.keyword %><% } ); %></li>
         </ul>
 
         <button class="delete">Delete</button>
     </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
     <script src="js/models/book.js"></script>
