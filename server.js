@@ -13,7 +13,7 @@ var app = express();
 
 //Where to serve static content
 app.use( serveStatic(path.join( application_root, 'site')) );
-app.use( bodyParser.urlencoded({ extended: false }) );
+app.use( bodyParser.urlencoded({ extended: true }) );
 //app.use(bodyParser());
 
 //Start server
@@ -49,12 +49,15 @@ mongoose.connection.on('disconnected', function () {
   console.log('Mongoose default connection disconnected');
 });
 
+//Schemas
+var Keywords = new mongoose.Schema({keyword: String}, { _id: false });
 
 //Schemas
 var Book = new mongoose.Schema({
     title: String,
     author: String,
-    releaseDate: Date
+    releaseDate: Date,
+    keys: [ Keywords ]                       // NEW
 });
 
 //Models
@@ -63,7 +66,7 @@ var BookModel = mongoose.model( 'Book', Book );
 // Configure server
 (function() {
     //parses request body and populates request.body
-    app.use( bodyParser.urlencoded({ extended: false })  );
+    app.use( bodyParser.urlencoded({ extended: true })  );
 
     //checks request.body for HTTP method overrides
     app.use( methodOverride() );
@@ -92,17 +95,18 @@ app.post( '/api/books', function( request, response ) {
     var book = new BookModel({
         title: request.body.title,
         author: request.body.author,
-        releaseDate: request.body.releaseDate
+        releaseDate: request.body.releaseDate,
+        keys: request.body.keywords       // NEW
     });
-
-    return book.save( function( err ) {
+    book.save( function( err ) {
         if( !err ) {
             console.log( 'created' );
             return response.send( book );
         } else {
-            console.log( err );
+            return console.log( err );
         }
     });
+
 });
 
 //Get a single book by id
@@ -123,14 +127,15 @@ app.put( '/api/books/:id', function( request, response ) {
         book.title = request.body.title;
         book.author = request.body.author;
         book.releaseDate = request.body.releaseDate;
+        book.keys = request.body.keywords; // NEW
 
         return book.save( function( err ) {
             if( !err ) {
                 console.log( 'book updated' );
-                return response.send( book );
             } else {
                 console.log( err );
             }
+            return response.send( book );
         });
     });
 });
