@@ -39,3 +39,18 @@ $ git clone https://github.com/songshu189/backbone-book-library.git
 ### Run the wep application
 
 Open http://localhost:4711 on a browser, you should see this application is running.
+
+### Attentions: changed for express version 4
+
+The followings are just to remind that some modules are not available on express 4, I have to install them separately, but if you have followed the above instructions you don't need do anything.
+
+Install method-override, errohandler, serve-static modules, add cresponding require variables.
+
+```
+ express.static  ->  serveStatic
+ bodyParser()    ->  bodyParser.urlencoded({ extended: true })
+ app.configure() // **this line will be removed**
+ express.methodOverride -> methodOverride
+ app.use(app.router); // **this line will be removed**
+ express.errorHandler -> errorHandler
+```
