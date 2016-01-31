@@ -44,13 +44,13 @@ Open http://localhost:4711 on a browser, you should see this application is runn
 
 The followings are just to remind that some modules are not available on express 4, I have to install them separately, but if you have followed the above instructions you don't need do anything.
 
-Install method-override, errohandler, serve-static modules, add cresponding require variables.
+Install method-override, errohandler, serve-static modules, add corresponding require variables.
 
 ```
  express.static  ->  serveStatic
  bodyParser()    ->  bodyParser.urlencoded({ extended: true })
- app.configure() // **this line will be removed**
+ app.configure() // **this line is removed**
  express.methodOverride -> methodOverride
- app.use(app.router); // **this line will be removed**
+ app.use(app.router); // **this line is removed**
  express.errorHandler -> errorHandler
 ```
